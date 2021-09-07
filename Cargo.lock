@@ -65,6 +65,7 @@ name = "aws-rust-api"
 version = "0.1.0"
 dependencies = [
  "dashmap",
+ "rand",
  "rocket",
 ]
 
