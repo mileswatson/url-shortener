@@ -46,9 +46,7 @@ mod tests {
     #[test]
     fn valid_requests() {
         let client = Client::tracked(rocket()).expect("valid rocket instance");
-        let response = client
-            .post("/api/shorten?url=https://google.com")
-            .dispatch();
+        let response = client.post("/api/shorten?url=https://duck.com").dispatch();
         assert_eq!(response.status(), Status::Ok);
 
         let key: u32 = response
@@ -66,6 +64,6 @@ mod tests {
             .get_one("Location")
             .expect("location header");
 
-        assert_eq!(redirect, "https://google.com")
+        assert_eq!(redirect, "https://duck.com")
     }
 }
