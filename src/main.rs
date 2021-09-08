@@ -36,3 +36,12 @@ fn rocket() -> _ {
         .manage(DashMap::<u32, String>::new())
         .mount("/", routes![shorten, redirect])
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn simple_demo_test() {
+        let x = 1 + 1;
+        assert_eq!(x, 2)
+    }
+}
