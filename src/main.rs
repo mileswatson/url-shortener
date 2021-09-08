@@ -73,4 +73,11 @@ mod tests {
         let response = client.post("/api/shorten?url=").dispatch();
         assert_eq!(response.status(), Status::BadRequest);
     }
+
+    #[test]
+    fn invalid_url() {
+        let client = Client::tracked(rocket()).expect("valid rocket instance");
+        let response = client.post("/123").dispatch();
+        assert_eq!(response.status(), Status::NotFound);
+    }
 }
