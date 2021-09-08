@@ -39,9 +39,33 @@ fn rocket() -> _ {
 
 #[cfg(test)]
 mod tests {
+    use rocket::{http::Status, local::blocking::Client};
+
+    use super::rocket;
+
     #[test]
-    fn simple_demo_test() {
-        let x = 1 + 1;
-        assert_eq!(x, 2)
+    fn valid_requests() {
+        let client = Client::tracked(rocket()).expect("valid rocket instance");
+        let response = client
+            .post("/api/shorten?url=https://google.com")
+            .dispatch();
+        assert_eq!(response.status(), Status::Ok);
+
+        let key: u32 = response
+            .into_string()
+            .expect("body")
+            .parse()
+            .expect("valid u32");
+
+        let response = client.get(format!("/{}", key)).dispatch();
+
+        assert_eq!(response.status(), Status::SeeOther);
+
+        let redirect = response
+            .headers()
+            .get_one("Location")
+            .expect("location header");
+
+        assert_eq!(redirect, "https://google.com")
     }
 }
