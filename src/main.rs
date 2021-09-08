@@ -66,4 +66,11 @@ mod tests {
 
         assert_eq!(redirect, "https://duck.com")
     }
+
+    #[test]
+    fn empty_url() {
+        let client = Client::tracked(rocket()).expect("valid rocket instance");
+        let response = client.post("/api/shorten?url=").dispatch();
+        assert_eq!(response.status(), Status::BadRequest);
+    }
 }
