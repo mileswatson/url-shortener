@@ -15,5 +15,7 @@ RUN cargo install --path .
 # allow requests to port 80
 EXPOSE 80
 
+COPY Rocket.toml . 
+
 # this command is run when we actually start the container
 CMD ["aws-rust-api"]
