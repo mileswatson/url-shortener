@@ -1,6 +1,7 @@
 use dashmap::DashMap;
 use rand::{thread_rng, Rng};
 use rocket::{
+    fs::FileServer,
     response::{
         status::{BadRequest, NotFound},
         Redirect,
@@ -35,6 +36,16 @@ fn rocket() -> _ {
     rocket::build()
         .manage(DashMap::<u32, String>::new())
         .mount("/", routes![shorten, redirect])
+        .mount(
+            "/",
+            if cfg!(debug_assertions) {
+                // debug mode, therefore serve relative to crate root
+                FileServer::from(rocket::fs::relative!("/svelte/build"))
+            } else {
+                // dockerized, therefore serve from absolute path
+                FileServer::from("/app/static")
+            },
+        )
 }
 
 #[cfg(test)]
