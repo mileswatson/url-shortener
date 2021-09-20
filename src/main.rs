@@ -91,4 +91,11 @@ mod tests {
         let response = client.post("/123").dispatch();
         assert_eq!(response.status(), Status::NotFound);
     }
+
+    #[test]
+    fn static_site() {
+        let client = Client::tracked(rocket()).expect("valid rocket instance");
+        let response = client.get("/").dispatch();
+        assert_eq!(response.status(), Status::Ok);
+    }
 }
