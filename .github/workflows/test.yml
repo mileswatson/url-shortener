@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
+      - name: Build Rust
         run: cargo build
-      - name: Make static directory
-        run: mkdir -p ./svelte/build
-      - name: Run tests
+      - name: Install Yarn
+        run: npm install --global yarn
+      - name: Build Svelte
+        run: yarn --cwd svelte run build
+      - name: Run Tests
         run: cargo test
