@@ -12,6 +12,6 @@ jobs:
       - name: Build
         run: cargo build
       - name: Make static directory
-        run: mkdir -p /svelte/build
+        run: mkdir -p ./svelte/build
       - name: Run tests
         run: cargo test
